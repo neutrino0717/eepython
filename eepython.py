@@ -24,17 +24,21 @@ class EEvars:
     i=0
 def eeprtlines(lines):
     #remove the last '\n', which is from f.readlines()
+    if not lines: return 
     if lines[-1] == '\n':
         lines = lines[:-1]
-    if re.match('^\s*###', lines):
-        print EEvars.RED + lines + EEvars.ENDC
-    #if line[0:2] == "##":
-    elif re.match('^\s*##', lines):
-        print EEvars.YELLOW + lines + EEvars.ENDC
-    elif re.match('^\s*#', lines):
-        print EEvars.BLUE + lines + EEvars.ENDC
-    else:
-        print EEvars.GREEN + lines + EEvars.ENDC
+    #print "----->>>>%s<<<<--------"%lines
+    for line in lines.split('\n'):
+        #print "---->%s<--------"%line
+        if re.match('^\s*###', line):
+            print EEvars.RED + line + EEvars.ENDC
+        #if line[0:2] == "##":
+        elif re.match('^\s*##', line):
+            print EEvars.YELLOW + line + EEvars.ENDC
+        elif re.match('^\s*#', line):
+            print EEvars.BLUE + line + EEvars.ENDC
+        else:
+            print EEvars.GREEN + line + EEvars.ENDC
          
    
 class EEfsm:
@@ -42,11 +46,15 @@ class EEfsm:
     def eeblock_commit(self):
         eeprtlines(self.eeblock)
         exec(self.eeblock, globals())
-        self.eeblock = None
+        self.eeblock = ''
+
+    def eebuffer_add(self):
+        self.eebuffer = self.eebuffer + self.cmdlinep
 
     def eeblock_add(self):
         #self.eeblock = (self.eeblock == None) and self.cmdlinep or self.eeblock + '\n' + self.cmdlinep
-        self.eeblock = (self.eeblock == None) and self.cmdlinep or self.eeblock + self.cmdlinep
+        self.eeblock = self.eeblock + self.eebuffer + self.cmdlinep
+        self.eebuffer = ''
 
     def eeblock_commit_add(self):
         self.eeblock_commit()
@@ -68,9 +76,9 @@ class EEfsm:
         else:
             return False
         
-    def prehandled(self):
+    def handler_comment_blank(self):
         if re.match(r'(^\s*$|^#)', self.cmdlinep):    #match blank line or comment line
-            self.eeblock_add()
+            self.eebuffer_add()
             return True
         return False
     '''
@@ -78,6 +86,8 @@ class EEfsm:
     2. end of the long comment
     '''
     def handler_init(self):
+        if self.handler_comment_blank():
+            return
         if re.match(r'\s', self.cmdlinep):
             print "Wrong indent detected by eepython, the line is %s: %s" % (EEvars.i, cmdline)
             exit(1)
@@ -86,9 +96,11 @@ class EEfsm:
             return
         #match a line not start with space etc
         self.eestate = 'one'
-        self.eeblock_commit_add()
+        self.eeblock_add()
     
     def handler_one(self):                ##############can we merge one and inblock???????????????????
+        if self.handler_comment_blank():
+            return
         if re.match(r'\s', self.cmdlinep):
             self.eestate = 'inblock'
             self.eeblock_add()
@@ -101,6 +113,8 @@ class EEfsm:
         self.eeblock_commit_add()
     
     def handler_inblock(self):
+        if self.handler_comment_blank():
+            return
         if re.match(r'\s', self.cmdlinep):
             self.eeblock_add()
         #start with @ or long comment
@@ -114,6 +128,8 @@ class EEfsm:
         if re.match(r'''['"]{3}''', self.cmdlinep): #match ''' or """
             self.eestate = 'init'
             self.eeblock_add_commit()
+        else:
+            self.eeblock_add()
         
     def handler_decorator(self):
         self.eestate = 'inblock'
@@ -123,7 +139,8 @@ class EEfsm:
 
     def __init__(self):
         self.eestate = 'init'
-        self.eeblock = None
+        self.eeblock = ''
+        self.eebuffer = ''
         self.eemstate = {
             #'state':     handler_function
             'init':       self.handler_init,      #to read the first line 
@@ -137,10 +154,13 @@ class EEfsm:
     def run(self, eelist):
         while EEvars.i < eelist.__len__():
             self.cmdlinep = eelist[EEvars.i]
-            if not self.prehandled():
-                eehandler = self.eemstate[self.eestate]
-                eehandler()
+            #print "--->>%s<<--"%self.cmdlinep
+            #if not self.prehandled():
+            eehandler = self.eemstate[self.eestate]
+            eehandler()
             EEvars.i = EEvars.i + 1
+        if self.eeblock:
+            self.eeblock_commit()
 
 if len(sys.argv) > 1:
     with open(sys.argv[1]) as f:
