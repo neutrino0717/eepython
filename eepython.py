@@ -92,18 +92,26 @@ class EEfsm:
             self.eeblock_add()
             return
         #match a line not start with space, elif, else 
-        self.eeblock_commit_add()
-        self.eestate = 'inblock'
-
+        #self.eeblock_commit_add()
+        #self.eestate = 'inblock'
+        self.eeblock_commit()
+        self.eestate = 'init'
+        self.handler_init()
+ 
     def handler_try(self):
+        #print "->in handler_try, %s"% self.cmdlinep
         if self.handler_comment_blank():
             return
         if re.match(r'\s|except|else|finally', self.cmdlinep):
+            #print "-->add %s" % self.cmdlinep
             self.eeblock_add()
             return
         #match a line not start with space, elif, else 
-        self.eeblock_commit_add()
-        self.eestate = 'inblock'
+        #self.eeblock_commit_add()
+        #self.eestate = 'inblock'
+        self.eeblock_commit()
+        self.eestate = 'init'
+        self.handler_init()
         
     def handler_comment_blank(self):
         if re.match(r'(^\s*$|^#)', self.cmdlinep):    #match blank line or comment line
@@ -195,5 +203,6 @@ class EEfsm:
             self.eeblock_commit()
 
 if len(sys.argv) > 1:
-    with open(sys.argv[1]) as f:
-        EEfsm().run(f.readlines())
+    with open(sys.argv[1]) as eef:
+        eecontent = eef.readlines()
+    EEfsm().run(eecontent)
