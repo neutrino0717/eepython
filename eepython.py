@@ -27,7 +27,7 @@ def eeprtlines(lines):
     if not lines: return 
     if lines[-1] == '\n':
         lines = lines[:-1]
-    #print "----->>>>%s<<<<--------"%lines
+    ####print "----->>>>%s<<<<--------"%lines
     for line in lines.split('\n'):
         #print "---->%s<--------"%line
         if re.match('^\s*###', line):
@@ -95,34 +95,35 @@ class EEfsm:
         if self.commonhandled():
             return
         #match a line not start with space etc
-        self.eestate = 'one'
+        self.eestate = 'inblock'
         self.eeblock_add()
     
-    def handler_one(self):                ##############can we merge one and inblock???????????????????
-        if self.handler_comment_blank():
-            return
-        if re.match(r'\s', self.cmdlinep):
-            self.eestate = 'inblock'
-            self.eeblock_add()
-            return
-        #start with @ or long comment
-        if self.commonhandled():        
-            return
-        #match a line not start with space etc
-        #self.eestate = 'one'
-        self.eeblock_commit_add()
+#    def handler_one(self):                ##############can we merge one and inblock???????????????????
+#        if self.handler_comment_blank():
+#            return
+#        if re.match(r'\s', self.cmdlinep):
+#            self.eestate = 'inblock'
+#            self.eeblock_add()
+#            return
+#        #start with @ or long comment
+#        if self.commonhandled():        
+#            return
+#        #match a line not start with space etc
+#        #self.eestate = 'one'
+#        self.eeblock_commit_add()
     
     def handler_inblock(self):
         if self.handler_comment_blank():
             return
         if re.match(r'\s', self.cmdlinep):
             self.eeblock_add()
+            return
         #start with @ or long comment
         if self.commonhandled():
             return
         #match a line not start with space etc
-        self.eestate = 'one'
         self.eeblock_commit_add()
+        self.eestate = 'inblock'
     
     def handler_lcomment(self):
         if re.match(r'''['"]{3}''', self.cmdlinep): #match ''' or """
@@ -132,7 +133,10 @@ class EEfsm:
             self.eeblock_add()
         
     def handler_decorator(self):
-        self.eestate = 'inblock'
+        if re.match(r'^@', self.cmdlinep): #double decorator
+            pass
+        else:
+            self.eestate = 'inblock'
         self.eeblock_add()
     
     def handler_if(cmdline): pass
@@ -144,7 +148,7 @@ class EEfsm:
         self.eemstate = {
             #'state':     handler_function
             'init':       self.handler_init,      #to read the first line 
-            'one' :       self.handler_one,       #after read in the first line which is not blank, not comment, not decorator, not if, while ....
+            #'one' :       self.handler_one,       #after read in the first line which is not blank, not comment, not decorator, not if, while ....
             'lcomment':   self.handler_lcomment,
             'decorator':  self.handler_decorator,
             'if':         self.handler_if,
