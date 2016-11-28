@@ -27,7 +27,7 @@ def eeprtlines(lines):
     if not lines: return 
     if lines[-1] == '\n':
         lines = lines[:-1]
-    ####print "----->>>>%s<<<<--------"%lines
+    #print "----->>>>%s<<<<--------"%lines
     for line in lines.split('\n'):
         #print "---->%s<--------"%line
         if re.match('^\s*###', line):
@@ -73,8 +73,21 @@ class EEfsm:
             self.eestate = 'decorator'
             self.eeblock_commit_add()
             return True
+        elif re.match(r'^if', self.cmdlinep): #in if 
+            self.eestate = 'if'
+            self.eeblock_commit_add()
+            return True
         else:
             return False
+    def handler_if(self):
+        if self.handler_comment_blank():
+            return
+        if re.match(r'\s|elif|else', self.cmdlinep):
+            self.eeblock_add()
+            return
+        #match a line not start with space, elif, else 
+        self.eeblock_commit_add()
+        self.eestate = 'inblock'
         
     def handler_comment_blank(self):
         if re.match(r'(^\s*$|^#)', self.cmdlinep):    #match blank line or comment line
@@ -118,7 +131,7 @@ class EEfsm:
         if re.match(r'\s', self.cmdlinep):
             self.eeblock_add()
             return
-        #start with @ or long comment
+        #start with @ or long comment or if_elif
         if self.commonhandled():
             return
         #match a line not start with space etc
@@ -139,8 +152,6 @@ class EEfsm:
             self.eestate = 'inblock'
         self.eeblock_add()
     
-    def handler_if(cmdline): pass
-
     def __init__(self):
         self.eestate = 'init'
         self.eeblock = ''
