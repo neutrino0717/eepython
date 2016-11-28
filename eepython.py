@@ -14,6 +14,7 @@ import sys
 import time
 import re
 import glob
+import inspect
 
 class EEvars:
     BLUE='\033[0;34m'
@@ -77,12 +78,27 @@ class EEfsm:
             self.eestate = 'if'
             self.eeblock_commit_add()
             return True
+        elif re.match(r'^try', self.cmdlinep): #in if 
+            self.eestate = 'try'
+            self.eeblock_commit_add()
+            return True
         else:
             return False
+
     def handler_if(self):
         if self.handler_comment_blank():
             return
         if re.match(r'\s|elif|else', self.cmdlinep):
+            self.eeblock_add()
+            return
+        #match a line not start with space, elif, else 
+        self.eeblock_commit_add()
+        self.eestate = 'inblock'
+
+    def handler_try(self):
+        if self.handler_comment_blank():
+            return
+        if re.match(r'\s|except|else|finally', self.cmdlinep):
             self.eeblock_add()
             return
         #match a line not start with space, elif, else 
@@ -163,6 +179,7 @@ class EEfsm:
             'lcomment':   self.handler_lcomment,
             'decorator':  self.handler_decorator,
             'if':         self.handler_if,
+            'try':        self.handler_try,
             'inblock':    self.handler_inblock,
      
         }
