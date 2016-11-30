@@ -1,0 +1,27 @@
+[0;34m#!/usr/bin/env eepython[0m
+[0;32mimport json[0m
+[0;32mfrom pprint import pprint[0m
+[0;32m[0m
+[0;32mcmd="""cat > AAT.conf <<EOF[0m
+[0;32m{[0m
+[0;32m    "data"              : "/home/eenmliu/aat/data01",[0m
+[0;32m    "backup"            : "/home/eenmliu/aat/backup",[0m
+[0;32m    "log-dir"           : "/home/eenmliu/aat/logs"[0m
+[0;32m}[0m
+[0;32mEOF"""[0m
+[0;32m[0m
+[0;32mos.system(cmd)[0m
+[0;32mwith open('AAT.conf') as f:    [0m
+[0;32m    data = json.load(f)[0m
+[0;32mprint data[0m
+{u'backup': u'/home/eenmliu/aat/backup', u'log-dir': u'/home/eenmliu/aat/logs', u'data': u'/home/eenmliu/aat/data01'}
+[0;32mpprint(data)[0m
+{u'backup': u'/home/eenmliu/aat/backup',
+ u'data': u'/home/eenmliu/aat/data01',
+ u'log-dir': u'/home/eenmliu/aat/logs'}
+[0;32mprint type(data)[0m
+<type 'dict'>
+[0;32mprint data[u'log-dir'][0m
+/home/eenmliu/aat/logs
+[0;32mprint data['log-dir'][0m
+/home/eenmliu/aat/logs

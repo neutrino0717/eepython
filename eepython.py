@@ -163,7 +163,7 @@ class EEfsm:
         self.eestate = 'inblock'
     
     def handler_lcomment(self):
-        if re.match(r'''['"]{3}''', self.cmdlinep): #match ''' or """
+        if re.match(r'''.*['"]{3}''', self.cmdlinep): #match ''' or """
             self.eestate = 'init'
             self.eeblock_add_commit()
         else:
@@ -200,6 +200,10 @@ class EEfsm:
             eehandler()
             EEvars.i = EEvars.i + 1
         if self.eeblock:
+            self.eeblock_commit()
+        if self.eebuffer:
+            self.eeblock = self.eeblock + self.eebuffer
+            self.eebuffer = ''
             self.eeblock_commit()
 
 if len(sys.argv) > 1:

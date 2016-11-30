@@ -1,2 +1,3 @@
 #2016.11.28  add if, try support, add Makefile
+#2016.11.29  fix when all are comments,nothing executed
 
