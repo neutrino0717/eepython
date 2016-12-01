@@ -22,6 +22,11 @@ class EEvars:
     YELLOW='\033[0;33m'
     RED='\033[31m'
     ENDC='\033[0m'
+    
+    comment3c=RED
+    comment2c=GREEN
+    comment1c=BLUE
+    commandc=YELLOW
     i=0
 def eeprtlines(lines):
     #remove the last '\n', which is from f.readlines()
@@ -32,14 +37,14 @@ def eeprtlines(lines):
     for line in lines.split('\n'):
         #print "---->%s<--------"%line
         if re.match('^\s*###', line):
-            print EEvars.RED + line + EEvars.ENDC
+            print EEvars.comment3c + line + EEvars.ENDC
         #if line[0:2] == "##":
         elif re.match('^\s*##', line):
-            print EEvars.YELLOW + line + EEvars.ENDC
+            print EEvars.comment2c + line + EEvars.ENDC
         elif re.match('^\s*#', line):
-            print EEvars.BLUE + line + EEvars.ENDC
+            print EEvars.comment1c + line + EEvars.ENDC
         else:
-            print EEvars.GREEN + line + EEvars.ENDC
+            print EEvars.commandc + line + EEvars.ENDC
          
    
 class EEfsm:

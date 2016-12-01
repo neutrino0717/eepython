@@ -1,11 +1,11 @@
 [0;34m#!/usr/bin/env eepython[0m
 [0;34m#list deep copy[0m
-[0;32maa = [3, 2, 1][0m
-[0;32mbb = aa[0m
+[0;33maa = [3, 2, 1][0m
+[0;33mbb = aa[0m
 [0;34m#an interesting way to do deep copy[0m
-[0;32mcc = aa[:][0m
-[0;32maa.append(4)[0m
-[0;32mprint aa, bb, cc[0m
+[0;33mcc = aa[:][0m
+[0;33maa.append(4)[0m
+[0;33mprint aa, bb, cc[0m
 [3, 2, 1, 4] [3, 2, 1, 4] [3, 2, 1]
-[0;32m[0m
+[0;33m[0m
 [0;34m#dict deep copy[0m

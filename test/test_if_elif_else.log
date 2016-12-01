@@ -1,12 +1,12 @@
 [0;34m#!/usr/bin/env eepython[0m
-[0;32mx = 3[0m
-[0;32mif x < 0:[0m
-[0;32m    x = 0[0m
-[0;32m    print 'Negative changed to zero'[0m
-[0;32melif x == 0:[0m
-[0;32m    print 'Zero'[0m
-[0;32melif x == 1:[0m
-[0;32m    print 'Single'[0m
-[0;32melse:[0m
-[0;32m    print 'More'[0m
+[0;33mx = 3[0m
+[0;33mif x < 0:[0m
+[0;33m    x = 0[0m
+[0;33m    print 'Negative changed to zero'[0m
+[0;33melif x == 0:[0m
+[0;33m    print 'Zero'[0m
+[0;33melif x == 1:[0m
+[0;33m    print 'Single'[0m
+[0;33melse:[0m
+[0;33m    print 'More'[0m
 More

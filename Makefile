@@ -3,9 +3,8 @@
 #
 # target        description
 # ----------------------------------------------------------------------
-# all           use 'pip install' to build all required python libraries
-# dist          build the IDP
-# clean         remove files built by make
+# test          system test
+# buildlog      build all the log files for the py files
 ########################################################################
 SHELL := /bin/bash
 
@@ -20,3 +19,12 @@ test:
 	if [ "$$result" ]; then echo error with $$d output; exit 1 ; fi;\
 	done)
 	@echo
+buildlog:
+	@echo rebuild the log
+	@(cd test; \
+	for d in *.py; do \
+	logfile=$${d%%.*}.log;\
+	./$$d |tee $$logfile;\
+	done)
+	@echo
+

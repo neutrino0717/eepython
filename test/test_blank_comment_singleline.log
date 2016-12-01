@@ -1,28 +1,28 @@
 [0;34m#!/usr/bin/env eepython[0m
-[0;32m[0m
+[0;33m[0m
 [0;34m#make dict with two list[0m
-[0;32mkeys = ['a', 'b', 'c'][0m
-[0;32mvalues = [1, 2, 3][0m
-[0;32mdd = dict(zip(keys, values))[0m
-[0;32mprint dd[0m
+[0;33mkeys = ['a', 'b', 'c'][0m
+[0;33mvalues = [1, 2, 3][0m
+[0;33mdd = dict(zip(keys, values))[0m
+[0;33mprint dd[0m
 {'a': 1, 'c': 3, 'b': 2}
-[0;32m[0m
+[0;33m[0m
 [0;34m#reverse dict[0m
-[0;32mprint {v: k for k, v in dd.items()}[0m
+[0;33mprint {v: k for k, v in dd.items()}[0m
 {1: 'a', 2: 'b', 3: 'c'}
-[0;32m[0m
+[0;33m[0m
 [0;34m#reverse dict[0m
-[0;32mprint                 dd.items()[0m
+[0;33mprint                 dd.items()[0m
 [('a', 1), ('c', 3), ('b', 2)]
-[0;32mprint            zip(*dd.items())[0m
+[0;33mprint            zip(*dd.items())[0m
 [('a', 'c', 'b'), (1, 3, 2)]
-[0;32mprint            zip(*dd.items())[::-1][0m
+[0;33mprint            zip(*dd.items())[::-1][0m
 [(1, 3, 2), ('a', 'c', 'b')]
-[0;32mprint      zip(*(zip(*dd.items())[::-1]))[0m
+[0;33mprint      zip(*(zip(*dd.items())[::-1]))[0m
 [(1, 'a'), (3, 'c'), (2, 'b')]
-[0;32mprint dict(zip(*(zip(*dd.items())[::-1])))[0m
+[0;33mprint dict(zip(*(zip(*dd.items())[::-1])))[0m
 {1: 'a', 2: 'b', 3: 'c'}
-[0;32m[0m
+[0;33m[0m
 [0;34m#reverse dict[0m
-[0;32mprint dict(zip(dd.values(), dd.keys()))[0m
+[0;33mprint dict(zip(dd.values(), dd.keys()))[0m
 {1: 'a', 2: 'b', 3: 'c'}

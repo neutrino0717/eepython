@@ -1,13 +1,13 @@
 [0;34m#!/usr/bin/env eepython[0m
-[0;32mx = 5[0m
-[0;32my = 0[0m
-[0;32mtry:[0m
-[0;32m    result = x / y[0m
-[0;32mexcept ZeroDivisionError:[0m
-[0;32m    print "division by zero!"[0m
-[0;32melse:[0m
-[0;32m    print "result is", result[0m
-[0;32mfinally:[0m
-[0;32m    print "executing finally clause"[0m
+[0;33mx = 5[0m
+[0;33my = 0[0m
+[0;33mtry:[0m
+[0;33m    result = x / y[0m
+[0;33mexcept ZeroDivisionError:[0m
+[0;33m    print "division by zero!"[0m
+[0;33melse:[0m
+[0;33m    print "result is", result[0m
+[0;33mfinally:[0m
+[0;33m    print "executing finally clause"[0m
 division by zero!
 executing finally clause

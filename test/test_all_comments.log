@@ -1,10 +1,10 @@
 [0;34m#!/usr/bin/env eepython[0m
 [31m###python -m pdb proxy.py [0m
-[0;33m## u(p)     Move the current frame one level up in the stack trace[0m
-[0;33m## n(ext)   Continue execution until the next line in the current function is reached or it returns.[0m
-[0;33m## p expression      Print the value of the expression.[0m
-[0;33m## a(rgs)   Print the arguments of the current function.[0m
-[0;33m## c [line_num]      Continue execution, only stop when a breakpoint is encountered.[0m
-[0;33m## j(ump) lineno  Set the next line that will be executed.[0m
-[0;33m##[0m
+[0;32m## u(p)     Move the current frame one level up in the stack trace[0m
+[0;32m## n(ext)   Continue execution until the next line in the current function is reached or it returns.[0m
+[0;32m## p expression      Print the value of the expression.[0m
+[0;32m## a(rgs)   Print the arguments of the current function.[0m
+[0;32m## c [line_num]      Continue execution, only stop when a breakpoint is encountered.[0m
+[0;32m## j(ump) lineno  Set the next line that will be executed.[0m
+[0;32m##[0m
 [31m###python -m trace --trace proxy.py[0m
