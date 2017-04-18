@@ -1,3 +1,5 @@
 #2016.11.28  add if, try support, add Makefile
 #2016.11.29  fix when all are comments,nothing executed
+#2016.12.01  change the color scheme
+#2017.04.18  enable '_' in matching var name of triple comments
 

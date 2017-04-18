@@ -71,7 +71,7 @@ class EEfsm:
         self.eeblock_commit()
       
     def commonhandled(self):
-        if re.match(r'''[a-zA-Z0-9]*\s*=\s*['"]{3}''', self.cmdlinep): #match abc='''
+        if re.match(r'''[a-zA-Z0-9_]*\s*=\s*['"]{3}''', self.cmdlinep): #match abc='''
             self.eestate = 'lcomment'
             self.eeblock_commit_add()
             return True
